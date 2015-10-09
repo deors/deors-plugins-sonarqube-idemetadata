@@ -1,0 +1,157 @@
+<%
+    def check_image(metric_or_measure)
+        html = ''
+
+        if metric_or_measure.is_a? ProjectMeasure
+            m = metric_or_measure
+        elsif @snapshot
+            m = @snapshot.measure(metric_or_measure)
+        end
+
+        if m.nil?
+            return ''
+        end
+
+        if m && m.metric
+            if m.value == 1
+                html = image_tag(url_for_static(:plugin => 'idemetadata', :path => 'check-round-yes-small.png'), :size => '16x16', :style => 'vertical-align:middle')
+            elsif
+                html = image_tag(url_for_static(:plugin => 'idemetadata', :path => 'check-round-no-small.png'), :size => '16x16', :style => 'vertical-align:middle')
+            end
+        end
+
+        html
+    end
+
+    def remove_brackets(metric_or_measure)
+        out = ''
+
+        if metric_or_measure.is_a? ProjectMeasure
+            m = metric_or_measure
+        elsif @snapshot
+            m = @snapshot.measure(metric_or_measure)
+        end
+
+        if m.nil?
+            return ''
+        end
+
+        if m && m.metric
+            out = m.data[1..-2]
+        end
+
+        out
+    end
+%>
+<div class="dashbox">
+    <h3>Project name (as configured in the IDE):</h3>
+    <p>
+        <span class="big">
+            <%= format_measure('ide_prj_name') %>
+        </span>
+    </p>
+</div>
+<div class="dashbox">
+    <table class="width100">
+        <tbody>
+            <tr>
+                <td style="width=60%; vertical-align:top; padding:0 30px 0 0;">
+        	        <h3>Project type and active frameworks:</h3>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <%= check_image('ide_is_java') -%>
+                                    <span style="vertical-align:middle">Java VM</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <%= check_image('ide_is_ear') -%>
+                                    <span style="vertical-align:middle">Java Enterprise Application (EAR)</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <%= check_image('ide_is_ejb') -%>
+                                    <span style="vertical-align:middle">Enterprise JavaBeans (EJB)</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <%= check_image('ide_is_web') -%>
+                                    <span style="vertical-align:middle">Web</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <%= check_image('ide_is_gwt') -%>
+                                    <span style="vertical-align:middle">Google Web Toolkit</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <%= check_image('ide_is_gae') -%>
+                                    <span style="vertical-align:middle">Google App Engine</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <%= check_image('ide_is_groovy') -%>
+                                    <span style="vertical-align:middle">Groovy</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <%= check_image('ide_is_grails') -%>
+                                    <span style="vertical-align:middle">Grails</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <%= check_image('ide_is_pde') -%>
+                                    <span style="vertical-align:middle">Eclipse Plug-in</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <%= check_image('ide_is_jet') -%>
+                                    <span style="vertical-align:middle">Eclipse JET code generator</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td style="width=40%; vertical-align:top">
+                    <h3>Declared dependencies:</h3>
+                    <table>
+                        <tbody>
+                            <% remove_brackets('ide_dependencies').split(/, /).each do |it| %>
+                            <tr>
+                                <td>
+                                    <%= image_tag('bullet_black.png', :style => 'vertical-align:middle') -%>
+                                    <span style="vertical-align:middle"><%= it -%></span>
+                                </td>
+                            </tr>
+                            <% end %>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <h3>Configured source folders:</h3>
+                    <table>
+                        <tbody>
+                            <% remove_brackets('ide_classpath').split(/, /).each do |it| %>
+                            <tr>
+                                <td>
+                                    <%= image_tag('bullet_black.png', :style => 'vertical-align:middle') -%>
+                                    <span style="vertical-align:middle"><%= it -%></span>
+                                </td>
+                            </tr>
+                            <% end %>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
