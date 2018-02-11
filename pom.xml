@@ -22,6 +22,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <java.version>1.8</java.version>
+
         <sonarqube.version>5.1</sonarqube.version>
         <json.version>1.0</json.version>
         <slf4j.version>1.7.5</slf4j.version>
@@ -30,14 +31,14 @@
 
         <junit.version>4.12</junit.version>
 
-        <jacoco.version>0.7.5.201505241946</jacoco.version>
+        <jacoco.version>0.8.0</jacoco.version>
         <jacoco.path>${settings.localRepository}/org/jacoco/org.jacoco.agent/${jacoco.version}/org.jacoco.agent-${jacoco.version}-runtime.jar</jacoco.path>
         <jacoco.utReport>${project.build.directory}/jacoco.exec</jacoco.utReport>
         <jacoco.itReport>${project.build.directory}/jacoco-it.exec</jacoco.itReport>
         <jacoco.utAgentConfig>-javaagent:${jacoco.path}=destfile=${jacoco.utReport}</jacoco.utAgentConfig>
         <jacoco.itAgentConfig>-javaagent:${jacoco.path}=destfile=${jacoco.itReport}</jacoco.itAgentConfig>
 
-        <jacoco-listeners.version>3.5</jacoco-listeners.version>
+        <jacoco-listeners.version>5.1.0.13090</jacoco-listeners.version>
     </properties>
 
     <build>
@@ -54,11 +55,11 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.18.1</version>
+                <version>2.20.1</version>
                 <configuration>
                     <argLine>${jacoco.utAgentConfig}</argLine>
                     <excludes>
-                        <exclude>**/it/*TestCase.java</exclude>
+                        <exclude>**/*IntegrationTestCase.java</exclude>
                     </excludes>
                     <properties>
                         <property>
@@ -71,19 +72,18 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.18.1</version>
+                <version>2.20.1</version>
                 <configuration>
                     <argLine>${jacoco.itAgentConfig}</argLine>
                     <includes>
-                        <include>**/it/*TestCase.java</include>
+                        <include>**/*IntegrationTestCase.java</include>
                     </includes>
                 </configuration>
                 <executions>
                     <execution>
-                        <id>integration-test</id>
-                        <phase>integration-test</phase>
                         <goals>
                             <goal>integration-test</goal>
+                            <goal>verify</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -97,7 +97,7 @@
                     <pluginKey>idemetadata</pluginKey>
                     <pluginClass>deors.plugins.sonarqube.idemetadata.IDEMetadataPlugin</pluginClass>
                     <pluginName>SonarQube IDE Metadata plugin</pluginName>
-                    <pluginDescription>Gathers and displays information from IDE metadata files, including project type (based on natures/facets) and dependencies.</pluginDescription>
+                    <pluginDescription>Gathers and displays information from IDE metadata files, including project type (based on natures/facets) and declared dependencies</pluginDescription>
                 </configuration>
             </plugin>
         </plugins>
