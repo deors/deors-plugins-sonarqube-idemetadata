@@ -1,8 +1,8 @@
-deors.plugins.sonarqube.idemetadata
+deors-plugins-sonarqube-idemetadata
 ===================================
 
 SonarQube IDE Metadata plugin gathers and displays information from IDE metadata files,
-including project type (based on natures/facets) and dependencies.
+including project type (based on natures/facets) and declared dependencies.
 
 Introduction
 ------------
@@ -19,7 +19,7 @@ A) Create the plug-in binary with this command:
 
 B) Copy the file to your SonarQube installation:
 
-    copy target/deors.plugins.sonarqube.idemetadata-1.0.jar $SONARQUBE_HOME/extensions/plugins
+    copy target/deors-plugins-sonarqube-idemetadata-1.0.jar $SONARQUBE_HOME/extensions/plugins
 
 C) Restart SonarQube
 

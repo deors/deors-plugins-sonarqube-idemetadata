@@ -6,12 +6,18 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <name>deors.plugins.sonarqube.idemetadata</name>
     <groupId>deors.plugins</groupId>
-    <artifactId>deors.plugins.sonarqube.idemetadata</artifactId>
+    <artifactId>deors-plugins-sonarqube-idemetadata</artifactId>
     <version>1.0</version>
     <packaging>sonar-plugin</packaging>
 
+    <name>deors-plugins-sonarqube-idemetadata</name>
+    <description>
+        SonarQube IDE Metadata plugin gathers and displays information from
+        IDE metadata files, including project type (based on natures/facets)
+        and declared dependencies
+    </description>
+    
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
